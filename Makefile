@@ -400,12 +400,25 @@ KBUILD_CFLAGS   := -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common -fshort-wchar \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -std=gnu89
+		   -std=gnu89 \
+                   -mcpu=cortex-a75.cortex-a55 \
+                   -mtune=cortex-a75.cortex-a55 \
+                   -O3 \
+                   -fopenmp -D_GLIBCXX_PARALLEL
+
 KBUILD_CPPFLAGS := -D__KERNEL__
+                   -mcpu=cortex-a75.cortex-a55 \
+                   -mtune=cortex-a75.cortex-a55 \
+                   -O3 \
+                   -fopenmp -D_GLIBCXX_PARALLEL
 KBUILD_AFLAGS_KERNEL :=
-KBUILD_CFLAGS_KERNEL :=
+KBUILD_CFLAGS_KERNEL := -mcpu=cortex-a75.cortex-a55 \
+                        -mtune=cortex-a75.cortex-a55 \
+                        -fopenmp -D_GLIBCXX_PARALLEL
 KBUILD_AFLAGS_MODULE  := -DMODULE
-KBUILD_CFLAGS_MODULE  := -DMODULE
+KBUILD_CFLAGS_MODULE  := -DMODULE -mcpu=cortex-a75.cortex-a55 \
+                         -mtune=cortex-a75.cortex-a55 \
+                         -fopenmp -D_GLIBCXX_PARALLEL
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 GCC_PLUGINS_CFLAGS :=
 CLANG_FLAGS :=
@@ -749,12 +762,12 @@ export DISABLE_CFI
 endif
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
 else
 ifdef CONFIG_PROFILE_ALL_BRANCHES
-KBUILD_CFLAGS	+= -O2 $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS	+= -O2 $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
 endif
 endif
 
